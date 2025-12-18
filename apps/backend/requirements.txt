@@ -1,0 +1,22 @@
+fastapi
+uvicorn[standard]
+# Core & Web
+flask
+python-dotenv
+requests
+
+# Database
+psycopg2-binary
+
+# Kafka
+confluent-kafka
+
+# Notifiers
+python-telegram-bot
+httpx[http2]
+
+# Security
+bcrypt==4.0.1
+passlib==1.7.4
+python-jose[cryptography]
+python-multipart

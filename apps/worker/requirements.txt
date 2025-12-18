@@ -1,0 +1,16 @@
+# Core & Modem
+# pyserial==3.5
+python-dotenv==1.0.1
+
+# Database
+psycopg2-binary==2.9.9
+
+# API & Web
+requests==2.32.0
+
+# Kafka
+confluent-kafka==2.3.0
+
+# Notifiers
+python-telegram-bot
+httpx[http2]

@@ -1,0 +1,406 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: #f4f7f9;
+  color: #333;
+}
+
+.app-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  gap: 15px;
+}
+
+.add-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.add-button:hover {
+  background-color: #2980b9;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  gap:15px;
+}
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+/* --- Layout Utama dengan Grid --- */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.app-main {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loading-text, .error-text {
+  text-align: center;
+  font-size: 1.2em;
+  padding: 40px 0;
+}
+.error-text {
+  color: #e74c3c;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table td {
+  padding: 8px 15px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+td.td-left {
+  text-align: left;
+}
+
+td.td-center {
+  text-align: center;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+thead tr {
+  background-color: #f8f9fa;
+}
+
+th {
+  font-weight: 600;
+  color: #34495e;
+}
+th.aksi-header, td.actions-cell {
+  width: 150px;
+  text-align: center;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.kelas {
+  text-align: center;
+  font-weight: bold;
+}
+
+.notifikasi {
+  vertical-align: middle;
+  text-align: center;
+}
+
+td.actions-cell {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.action-button {
+  border: none;
+  min-width: 65px;
+  padding: 8px 12px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: opacity 0.2s;
+  color: white;
+}
+.action-button:hover {
+  opacity: 0.8;
+}
+.btn-edit { background-color: #f39c12; }
+.btn-delete { background-color: #e74c3c; }
+
+.checkbox-display {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox-display input[type="checkbox"] {
+  transform: scale(1.3);
+  pointer-events: none;
+}
+.checkbox-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75em;
+  font-weight: 600;
+  color: #555;
+}
+
+.checkbox-item span {
+  margin-bottom: 2px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- CSS untuk Log Notifikasi --- */
+.log-container {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.log-container h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #7f8c8d;
+  padding-bottom: 10px;
+  font-size: 1.2em;
+}
+
+.log-feed {
+  flex-grow: 1;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+}
+
+.log-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 5px;
+  border-bottom: 1px solid #34495e;
+}
+.log-item:last-child {
+  border-bottom: none;
+}
+
+.log-time {
+  color: #95a5a6;
+}
+
+.log-channel {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: white;
+  min-width: 70px;
+  text-align: center;
+}
+.log-channel-whatsapp { background-color: #25D366; }
+.log-channel-telegram { background-color: #0088cc; }
+
+.log-message {
+  color: #ecf0f1;
+  word-break: break-all;
+}
+
+.log-empty {
+  text-align: center;
+  color: #7f8c8d;
+  padding: 20px;
+}
+
+/* ============================================== */
+/* --- GAYA BARU: Halaman Login/Register Modern --- */
+/* ============================================== */
+
+/* Latar Belakang Halaman dengan Gradien */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Kotak Form Utama */
+.auth-form-wrapper {
+  background: white;
+  padding: 50px;
+  border-radius: 12px;
+  /* Bayangan yang lebih lembut dan menyebar */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.auth-form-wrapper:hover {
+  transform: translateY(-5px);
+}
+
+/* Judul Form */
+.auth-form-wrapper h2 {
+  margin-top: 0;
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 2em;
+  font-weight: 600;
+}
+
+/* Mengatur grup form (label + input) */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+  font-size: 0.9em;
+}
+
+/* Input field yang lebih modern */
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  font-size: 1em;
+}
+
+/* Efek saat input di-klik (focus) */
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); /* Efek glow */
+}
+
+/* Tombol Aksi */
+.auth-button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* Efek saat tombol di-hover */
+.auth-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.auth-button:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Teks Error */
+.auth-error {
+  color: #e74c3c;
+  background-color: rgba(231, 76, 60, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Link untuk Pindah Mode (Login/Register) */
+.auth-toggle {
+  text-align: center;
+  margin-top: 25px;
+  color: #7f8c8d;
+}
+
+.auth-toggle span {
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-toggle span:hover {
+  text-decoration: underline;
+  color: #764ba2;
+}
+
+
+/* --- Modal Styles (tidak berubah) --- */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex; justify-content: center; align-items: center; z-index: 1000;
+}
+.modal-content {
+  background-color: white; padding: 30px; border-radius: 8px;
+  width: 90%; max-width: 500px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.modal-content h2 { margin-top: 0; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+.form-group input {
+  width: 100%; padding: 8px; border: 1px solid #ccc;
+  border-radius: 4px; box-sizing: border-box;
+}
+.form-group input:disabled { background-color: #ecf0f1; cursor: not-allowed; }
+.form-group-checkbox { margin-bottom: 20px; }
+.checkbox-options { display: flex; gap: 20px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.btn-cancel, .btn-submit { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; }
+.btn-cancel { background-color: #bdc3c7; color: #34495e; }
+.btn-submit { background-color: #2ecc71; color: white; }

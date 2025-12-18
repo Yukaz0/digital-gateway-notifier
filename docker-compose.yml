@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # Service 1: Database PostgreSQL
+  #  postgres:
+  #    image: postgres:13-alpine
+  #    container_name: gateway-postgres-db
+  #    restart: unless-stopped
+  #    environment:
+  #      POSTGRES_USER: ${POSTGRES_USER}
+  #      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #      POSTGRES_DB: ${POSTGRES_DBNAME}
+  #    volumes:
+  #      - postgres_data:/var/lib/postgresql/data
+  #    networks:
+  #      - gateway-network
+  #    healthcheck:
+  #      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DBNAME}"]
+  #      interval: 5s
+  #      timeout: 5s
+  #      retries: 5
+
+  # Service 2: Backend API (FastAPI)
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: gateway-backend-api
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - gateway-network
+      - app-tier
+  #    depends_on:
+  #      postgres:
+  #        condition: service_healthy
+
+  # Service 3: Frontend Dashboard (React + Nginx)
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    container_name: gateway-frontend-dashboard
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    networks:
+      - gateway-network
+      - app-tier
+    depends_on:
+      - backend
+
+  # Service 4: Notification Consumer (Aplikasi main.py)
+  notification-consumer:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile.consumer
+    container_name: gateway-notification-consumer
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - gateway-network
+      - app-tier
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+
+# Mendefinisikan jaringan internal agar semua container bisa berkomunikasi
+networks:
+  gateway-network:
+    driver: bridge
+  app-tier:
+    external: false
+
+# Mendefinisikan volume untuk persistensi data database
+#volumes:
+#  postgres_data:

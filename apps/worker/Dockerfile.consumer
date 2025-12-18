@@ -1,0 +1,27 @@
+# Menggunakan image Python yang slim dan efisien
+FROM python:3.11-slim
+
+# Install dependensi sistem yang dibutuhkan oleh library Python
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Tetapkan direktori kerja di dalam container
+WORKDIR /app
+
+# Salin file requirements terlebih dahulu untuk caching
+COPY apps/worker/requirements.txt .
+
+# Install semua library Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Salin semua kode aplikasi yang dibutuhkan oleh consumer
+COPY libs ./libs
+COPY apps/worker ./apps/worker
+
+# Set PYTHONPATH agar libs bisa diimport
+ENV PYTHONPATH=/app
+
+# Perintah untuk menjalankan aplikasi consumer
+CMD ["python", "apps/worker/main.py"]
