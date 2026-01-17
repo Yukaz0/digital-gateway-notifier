@@ -1,4 +1,4 @@
-# 🚀 Notification Gateway GRITA - Multi-Channel Notification System
+# 🚀 Notification Gateway - Multi-Channel Notification System
 
 A comprehensive, enterprise-grade notification gateway that consumes alarm messages from **Apache Kafka** and broadcasts them as real-time notifications via **Telegram** and **WhatsApp**. This application features a complete web dashboard for user management and is designed for high reliability with PostgreSQL database integration.
 
@@ -170,7 +170,7 @@ graph TB
 | `WAHA_API_KEY`             | `sha512:...`                     | WAHA API key (optional)               |
 | **Application Settings**   |
 | `LOG_LEVEL`                | `INFO`                           | Logging level                         |
-| `APP_NAME`                 | `Notification Gateway GRITA`     | Application name                      |
+| `APP_NAME`                 | `Notification Gateway`           | Application name                      |
 | `ENVIRONMENT`              | `production`                     | Environment mode                      |
 | `DEBUG_MODE`               | `false`                          | Debug mode flag                       |
 | `NOTIFICATION_DELAY`       | `1`                              | Delay between notifications (seconds) |
@@ -244,7 +244,7 @@ graph TB
 ### Project Structure
 
 ```
-smsgateway-grita/
+digital-gateway/
 ├── api/                    # Flask API server
 ├── backend_api/            # FastAPI backend service
 ├── bot/                    # Telegram bot implementation
