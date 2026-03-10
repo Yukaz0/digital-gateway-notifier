@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.pyc
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Log files
+*.log
+logs/
+
+# Environment variables
+.env
+.env.*
+!.env.template
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# WhatsApp session data
+apps/whatsapp-service/.wwebjs_auth/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
