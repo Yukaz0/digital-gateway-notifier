@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
+from datetime import datetime
 
 # Schema dasar untuk pelanggan, digunakan saat membuat atau mengupdate
 class PelangganBase(BaseModel):
@@ -45,3 +46,26 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+
+# --- Schema Name Station Gateway ---
+class NameStationBase(BaseModel):
+    name_station: str
+    singkatan_name_station: Optional[str] = None
+    code_station: str
+    keterangan: Optional[str] = None
+
+class NameStationCreate(NameStationBase):
+    pass
+
+class NameStationUpdate(BaseModel):
+    name_station: Optional[str] = None
+    singkatan_name_station: Optional[str] = None
+    code_station: Optional[str] = None
+    keterangan: Optional[str] = None
+
+class NameStation(NameStationBase):
+    id: int
+    create_date: Optional[datetime] = None
+    update_date: Optional[datetime] = None
+    class Config:
+        from_attributes = True

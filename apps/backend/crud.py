@@ -60,7 +60,6 @@ def register_telegram_user(db: RealDictCursor, nomor_hp: str, chat_id: str):
 def check_db_connection(db: RealDictCursor):
     """Mengecek koneksi database dengan menjalankan query sederhana."""
     try:
-        # Menggunakan string biasa, bukan text() dari SQLAlchemy
         db.execute('SELECT 1')
         return True
     except Exception:
@@ -94,3 +93,77 @@ def create_user(db: RealDictCursor, user: schemas.UserCreate):
     """
     db.execute(insert_query, (user.username, hashed_password))
     return db.fetchone()
+
+
+# --- Fungsi CRUD untuk Name Station Gateway ---
+
+def get_all_name_stations(db: RealDictCursor, skip: int = 0, limit: int = 100):
+    """Mengambil semua data name station gateway dengan paginasi."""
+    db.execute(
+        "SELECT * FROM name_station_gateway ORDER BY name_station OFFSET %s LIMIT %s",
+        (skip, limit)
+    )
+    return db.fetchall()
+
+def get_name_station_by_id(db: RealDictCursor, station_id: int):
+    """Mencari satu name station berdasarkan ID."""
+    db.execute("SELECT * FROM name_station_gateway WHERE id = %s", (station_id,))
+    return db.fetchone()
+
+def create_name_station(db: RealDictCursor, data: dict):
+    """Membuat name station baru di database."""
+    insert_query = """
+        INSERT INTO name_station_gateway (name_station, singkatan_name_station, code_station, keterangan)
+        VALUES (%s, %s, %s, %s)
+        RETURNING *;
+    """
+    db.execute(insert_query, (
+        data['name_station'],
+        data.get('singkatan_name_station'),
+        data['code_station'],
+        data.get('keterangan')
+    ))
+    return db.fetchone()
+
+def update_name_station(db: RealDictCursor, station_id: int, update_data: dict):
+    """Memperbarui data name station yang sudah ada."""
+    set_query_parts = [f"{key} = %s" for key in update_data.keys()]
+    set_query_parts.append("update_date = CURRENT_TIMESTAMP")
+    set_query = ", ".join(set_query_parts)
+    values = list(update_data.values())
+    values.append(station_id)
+    update_query = f"UPDATE name_station_gateway SET {set_query} WHERE id = %s RETURNING *;"
+    db.execute(update_query, tuple(values))
+    return db.fetchone()
+
+def delete_name_station(db: RealDictCursor, station_id: int):
+    """Menghapus name station dari database."""
+    db.execute("DELETE FROM name_station_gateway WHERE id = %s RETURNING *;", (station_id,))
+    return db.fetchone()
+
+
+def bulk_create_name_stations(db: RealDictCursor, rows: list):
+    """Bulk insert name stations. Returns dict with 'success_count' and 'errors' list."""
+    success_count = 0
+    errors = []
+
+    for i, row in enumerate(rows):
+        try:
+            insert_query = """
+                INSERT INTO name_station_gateway (name_station, singkatan_name_station, code_station, keterangan)
+                VALUES (%s, %s, %s, %s);
+            """
+            db.execute(insert_query, (
+                row.get('name_station', '').strip(),
+                row.get('singkatan_name_station', '').strip() or None,
+                row.get('code_station', '').strip(),
+                row.get('keterangan', '').strip() or None,
+            ))
+            success_count += 1
+        except Exception as e:
+            # Rollback the failed statement but continue with next rows
+            db.connection.rollback()
+            error_msg = str(e).split('\n')[0]
+            errors.append({"row": i + 1, "code_station": row.get('code_station', ''), "error": error_msg})
+
+    return {"success_count": success_count, "errors": errors}

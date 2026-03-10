@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Service 1: Database PostgreSQL
+  # Service 1: Database PostgreSQL (opsional, uncomment jika ingin deploy lokal)
   #  postgres:
   #    image: postgres:13-alpine
   #    container_name: gateway-postgres-db
@@ -31,9 +31,6 @@ services:
     networks:
       - gateway-network
       - app-tier
-  #    depends_on:
-  #      postgres:
-  #        condition: service_healthy
 
   # Service 3: Frontend Dashboard (React + Nginx)
   frontend:
@@ -50,7 +47,7 @@ services:
     depends_on:
       - backend
 
-  # Service 4: Notification Consumer (Aplikasi main.py)
+  # Service 4: Notification Consumer (Python Worker)
   notification-consumer:
     build:
       context: .
@@ -61,9 +58,24 @@ services:
     networks:
       - gateway-network
       - app-tier
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
+    depends_on:
+      - whatsapp-service
+
+  # Service 5: WhatsApp Service (Node.js + whatsapp-web.js)
+  whatsapp-service:
+    build:
+      context: ./apps/whatsapp-service
+      dockerfile: Dockerfile
+    container_name: gateway-whatsapp-service
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "3001:3001"
+    volumes:
+      - whatsapp_auth:/app/.wwebjs_auth
+    networks:
+      - gateway-network
+      - app-tier
 
 # Mendefinisikan jaringan internal agar semua container bisa berkomunikasi
 networks:
@@ -72,6 +84,6 @@ networks:
   app-tier:
     external: false
 
-# Mendefinisikan volume untuk persistensi data database
-#volumes:
-#  postgres_data:
+# Volume untuk persistensi session WhatsApp dan database (opsional)
+volumes:
+  whatsapp_auth: #  postgres_data:
